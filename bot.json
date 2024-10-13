@@ -1,0 +1,16 @@
+{
+    "main": "dbbot.js",
+    "option": {
+        "apiLevel": 1,
+        "useUnifiedParams": true,
+        "useBabel": false,
+        "scriptPower": true,
+        "offOnRuntimeError": false,
+        "debugRoom": {
+            "name": "DEBUG ROOM",
+            "sender": "DEBUG SENDER",
+            "isGroupChat": false,
+            "packageName": "com.xfl.msgbot"
+        }
+    }
+}
