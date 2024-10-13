@@ -15,7 +15,7 @@
 ---
 
 ## 프로젝트 구조
-
+```
 📦 dbbot
 ├── 📄 dbbot.js                 # 프로그램 진입점
 ├── 📂 modules                  # 실제 봇 코드들
@@ -37,7 +37,7 @@
 │   ├── main.js                 # 메인 로직 처리
 │   ├── message.js              # 메시지 처리 로직
 │   └── Polyfill.js             # ES5에서 지원하지 않는 기능 폴리필
-
+```
 
 ---
 
@@ -55,6 +55,9 @@
 ```bash
 git clone <repository-url>
 cd dbbot
+```
+
+---
 
 ## 주의사항
 - 이 프로젝트는 ES5 표준을 준수하여 최신 Node.js 기능을 사용하지 않습니다.
