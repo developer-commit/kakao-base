@@ -1,36 +1,59 @@
-const scriptName = "dbbot";
-
 var main = require('main');
+const bot = BotManager.getCurrentBot();
 /**
- * (string) room
- * (string) sender
- * (boolean) isGroupChat
- * (void) replier.reply(message)
- * (boolean) replier.reply(room, message, hideErrorToast = false) // 전송 성공시 true, 실패시 false 반환
- * (string) imageDB.getProfileBase64()
- * (string) packageName
+ * (string) msg.content: 메시지의 내용
+ * (string) msg.room: 메시지를 받은 방 이름
+ * (User) msg.author: 메시지 전송자
+ * (string) msg.author.name: 메시지 전송자 이름
+ * (Image) msg.author.avatar: 메시지 전송자 프로필 사진
+ * (string) msg.author.avatar.getBase64()
+ * (string | null) msg.author.userHash: 사용자의 고유 id
+ * (boolean) msg.isGroupChat: 단체/오픈채팅 여부
+ * (boolean) msg.isDebugRoom: 디버그룸에서 받은 메시지일 시 true
+ * (string) msg.packageName: 메시지를 받은 메신저의 패키지명
+ * (void) msg.reply(string): 답장하기
+ * (boolean) msg.isMention: 메세지 맨션 포함 여부
+ * (bigint) msg.logId: 각 메세지의 고유 id
+ * (bigint) msg.channelId: 각 방의 고유 id
  */
+function onMessage(msg) {
 
-//대응소스는 자체적으로 구해서 추가하세요
-function responseFix(room, msg, sender, isGroupChat, replier, imageDB, packageName, user) {
+  Log.d(msg.author.userHash)
+
   try{
-
     main({
-      room: room,
-      msg: msg,
-      sender: sender,
-      isGroupChat: isGroupChat,
-      replier: replier,
-      imageDB: imageDB,
-      packageName: packageName,
-      user: user
+      room: msg.room,
+      msg: msg.content,
+      sender: msg.author.name,
+      isGroupChat: msg.isGroupChat,
+      replier: msg,
+      user: msg.author.hash
     })
   } catch (e) {
     Log.e(e)
   }
 }
+bot.addListener(Event.MESSAGE, onMessage);
 
-//아래 4개의 메소드는 액티비티 화면을 수정할때 사용됩니다.
+/**
+ * (string) msg.content: 메시지의 내용
+ * (string) msg.room: 메시지를 받은 방 이름
+ * (User) msg.author: 메시지 전송자
+ * (string) msg.author.name: 메시지 전송자 이름
+ * (Image) msg.author.avatar: 메시지 전송자 프로필 사진
+ * (string) msg.author.avatar.getBase64()
+ * (boolean) msg.isDebugRoom: 디버그룸에서 받은 메시지일 시 true
+ * (boolean) msg.isGroupChat: 단체/오픈채팅 여부
+ * (string) msg.packageName: 메시지를 받은 메신저의 패키지명
+ * (void) msg.reply(string): 답장하기
+ * (string) msg.command: 명령어 이름
+ * (Array) msg.args: 명령어 인자 배열
+ */
+function onCommand(msg) {}
+bot.setCommandPrefix("@"); //@로 시작하는 메시지를 command로 판단
+bot.addListener(Event.COMMAND, onCommand);
+
+
 function onCreate(savedInstanceState, activity) {
   var textView = new android.widget.TextView(activity);
   textView.setText("Hello, World!");
@@ -45,3 +68,18 @@ function onResume(activity) {}
 function onPause(activity) {}
 
 function onStop(activity) {}
+
+function onRestart(activity) {}
+
+function onDestroy(activity) {}
+
+function onBackPressed(activity) {}
+
+bot.addListener(Event.Activity.CREATE, onCreate);
+bot.addListener(Event.Activity.START, onStart);
+bot.addListener(Event.Activity.RESUME, onResume);
+bot.addListener(Event.Activity.PAUSE, onPause);
+bot.addListener(Event.Activity.STOP, onStop);
+bot.addListener(Event.Activity.RESTART, onRestart);
+bot.addListener(Event.Activity.DESTROY, onDestroy);
+bot.addListener(Event.Activity.BACK_PRESSED, onBackPressed);
